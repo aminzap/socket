@@ -1,4 +1,5 @@
 import socket
+import pickle
 
 HEADERSIZE = 10
 PORT = 5050
@@ -13,8 +14,11 @@ while True:
     clientsocket, address = server.accept()
     print(f'connection from {address} was established')
     # header: notify how long is your message and some informations about it
-    msg='welcome to server'
-    msg=f'{len(msg):<{HEADERSIZE}}'+msg
+    msg = {'a': 'amin',
+           'b': 'babak',
+           'c': 'cyndi'}
+    msg=pickle.dumps(msg)
+    msg=bytes(f'{len(msg):<{HEADERSIZE}}','utf-8')+msg
 
-    clientsocket.send(bytes(msg, 'utf-8'))
-    clientsocket.close()
+    clientsocket.send(msg)
+
